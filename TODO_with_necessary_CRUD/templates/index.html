@@ -11,7 +11,7 @@
     crossorigin="anonymous">
 
   <title>Hello, world!</title>
-  {% load static  %}
+  {% load static %}
   <link rel="stylesheet" href="{% static '/css/style.css' %}">
 </head>
 
@@ -117,7 +117,10 @@
 
             </ul>
             <div class="btn mt-3">
-              <button type="button" class="btn btn-success">Add Task +</button>
+              <!-- <a href="/add-task"> -->
+              <button type="button" class="btn btn-success" id="addtask">Add Task +</button>
+              <!-- </a> -->
+
             </div>
 
           </div>
@@ -154,7 +157,7 @@
             <h5 id="name{{ forloop.counter }}">{{ items.name }}</h5>
             <input id="gid{{ forloop.counter }}" type="text" class="gid" value="{{ items.gid }}" style="display:none;">
             <textarea class="notes" id="notes{{ forloop.counter }}" style="display:none;">{{ items.notes }}</textarea>
-<!--            custom_fields.0.enum_options.0.color-->
+            <!--            custom_fields.0.enum_options.0.color-->
             <!-- class="card-title" -->
             <h6 id="dt{{ forloop.counter }}" class="text-muted">{{ items.due_on}}</h6>
             <!-- card-subtitle -->
@@ -162,12 +165,12 @@
           <div class="badges">
             {% if items.custom_fields.0.enum_value.name == "Complete" %}
             <span id="{{forloop.counter}}" class="badge bg-primary">{{ items.custom_fields.0.enum_value.name }}</span>
-            {% elif items.custom_fields.0.enum_value.name  == "Active" %}
+            {% elif items.custom_fields.0.enum_value.name == "Active" %}
             <span id="{{forloop.counter}}" class="badge bg-warning text-dark">{{ items.custom_fields.0.enum_value.name }}</span>
-            {% elif items.custom_fields.0.enum_value.name  == "Upcoming" %}
+            {% elif items.custom_fields.0.enum_value.name == "Upcoming" %}
             <span id="{{forloop.counter}}" class="badge bg-info text-dark">{{ items.custom_fields.0.enum_value.name }}</span>
             {% else %}
-             <span id="{{forloop.counter}}" class="badge">{{ items.custom_fields.0.enum_value.name }}</span>
+            <span id="{{forloop.counter}}" class="badge">{{ items.custom_fields.0.enum_value.name }}</span>
             {% endif %}
 
           </div>
@@ -199,12 +202,27 @@
           </div>
           <div class="Summory">
             <h5 class="">Summory</h5>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
-              />
-              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-              />
-            </svg>
+            <div class="summ-action">
+              <span id="spanedit" data-bs-toggle="modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                  />
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                  />
+                </svg>
+              </span>
+
+              <span>
+                <svg style="margin-right: 39px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+                  viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                  />
+                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                  />
+                </svg>
+              </span>
+
+            </div>
           </div>
           <div class="containt">
             <p id="cont">...</p>
@@ -215,12 +233,44 @@
           </div>
         </div>
         <div class="spinner-grow text-info mt-5" id="wait" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
     </div>
   </div>
-
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Task Or Update Task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+          <form id="cuFrom" method="post">
+            {% csrf_token %}
+            <label class="" for="title">TItle</label>
+            <input type="text" id="title" class="form-control" placeholder="Title" name="title">
+            <label class="" for="inlineFormSelectPref">status</label>
+            <select class="form-select" id="autoSizingSelect" required name="status">
+              <!-- <option selected>Status</option> -->
+              <option value="1201806637088984">Active</option>
+              <option value="1201806637088988">Complete</option>
+              <option value="1201806637088989">Upcoming</option>
+            </select>
+            <label class="" for="modelTextarea">Description</label>
+            <textarea name="desc" id="modelTextarea" style="width: 100%; max-width: 100%;" rows="5" placeholder="Description"></textarea>
+            <input type="submit" value="Add Task" class="btn btn-secondary">
+            <input type="text" style="display:none" id="taskIdInFrom" name="taskGid">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Optional JavaScript; choose one of the two! -->
 
   <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -239,31 +289,28 @@
       $("#left").toggle();
       $("#left").css("width", "224px").css("flex-direction", "column")
     });
-    $("#task_container span").click(function (evn){
-      $("#name").text($("#name"+evn.target.id).text())
-      $("#date").text($("#dt"+evn.target.id).text())
-      $("#cont").text($("textarea#notes"+evn.target.id).val())
-      $("#badge").text($("#"+evn.target.id).text())
+    $("#task_container span").click(function (evn) {
+      $("#name").text($("#name" + evn.target.id).text())
+      $("#date").text($("#dt" + evn.target.id).text())
+      $("#cont").text($("textarea#notes" + evn.target.id).val())
+      $("#badge").text($("#" + evn.target.id).text())
       $("#sidebar-main").css('display', 'flex');
       $("#sidebar-main").css('flex-direction', 'column');
       $("#wait").css('display', 'none');
-      console.log(evn.target.id)
-      
-
-
-      
-      
-      
-      
-
-
+      $("#taskIdInFrom").val($("#gid" + evn.target.id).val());
+      //console.log(evn.target.id+" set in "+$("gid" + evn.target.id).val)
+    });
+    $('#addtask').click(function (){
+      $('#exampleModal').modal('show');
+      $('#cuFrom').prop('action', "/add-task/")
+      $('#cuFrom').prop('method', "post")
 
     });
-    //document.getElementsByTagName("div").click(function(evn){
-      //console.log(evn)
-    //})
-    //$("#task_container").click(function(evn){evn.target})
-  
+    $('#spanedit').click(function (){
+      $('#exampleModal').modal('show');
+      $('#cuFrom').prop('action', "/update/")
+    });
+
   </script>
 </body>
 
