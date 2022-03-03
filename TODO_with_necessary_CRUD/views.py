@@ -4,7 +4,7 @@ import asana
 from datetime import datetime
 # Create your views here.
 def home(request):
-    accessToken = "1/1201800762568260:f3d635fcfe882948cefcce5585990a6c"
+    accessToken = "XXXXXX"
     client = asana.Client.access_token(accessToken)
     me = client.users.me()
     # print("Hello " + me['name'])
@@ -20,7 +20,7 @@ def home(request):
     # print(createList)
     return render(request,"index.html",{"params":createList})
 def noReload(request):
-    accessToken = "1/1201800762568260:f3d635fcfe882948cefcce5585990a6c"
+    accessToken = "XXXXXXXXXX"
     client = asana.Client.access_token(accessToken)
     me = client.users.me()
     # print("Hello " + me['name'])
@@ -41,7 +41,7 @@ def addTask(request):
         title = request.POST.get("title")
         desc = request.POST.get("desc")
         status = request.POST.get("status")
-        accessToken = "1/1201800762568260:f3d635fcfe882948cefcce5585990a6c"
+        accessToken = "XXXXXXXXX"
         client = asana.Client.access_token(accessToken)
         me = client.users.me()
         # print("before", me['workspaces'][0]['gid'])
@@ -70,7 +70,7 @@ def update(request):
         status = request.POST.get("status")
         taskGid = request.POST.get("taskGid")
 
-        accessToken = "1/1201800762568260:f3d635fcfe882948cefcce5585990a6c"
+        accessToken = "XXXXXXXX"
         client = asana.Client.access_token(accessToken)
         me = client.users.me()
         if len(title)!=0 and len(desc)!=0:
@@ -104,7 +104,7 @@ def update(request):
 def delete(request):
     if request.method=="POST":
         task_gid = request.POST.get("taskGid")
-        accessToken = "1/1201800762568260:f3d635fcfe882948cefcce5585990a6c"
+        accessToken = "XXXXXXXXX"
         client = asana.Client.access_token(accessToken)
         me = client.users.me()
         result = client.tasks.delete_task(task_gid, opt_pretty=True)
