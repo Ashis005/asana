@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.http import HttpResponse,JsonResponse
+from django.shortcuts import render, redirect
 import asana
 from datetime import datetime
 # Create your views here.
@@ -19,6 +19,23 @@ def home(request):
         # print(i)
     # print(createList)
     return render(request,"index.html",{"params":createList})
+def noReload(request):
+    accessToken = "1/1201800762568260:f3d635fcfe882948cefcce5585990a6c"
+    client = asana.Client.access_token(accessToken)
+    me = client.users.me()
+    # print("Hello " + me['name'])
+    workspace_id = me['workspaces'][0]['gid']
+    result = client.tasks.get_tasks_for_project("1201823791485761", opt_pretty=True)
+    createList = list()
+    x = list(result)
+    for i in x:
+        getTask = client.tasks.get_task(i['gid'], opt_pretty=True)
+        # print(list(getTask))
+        createList.append(dict(getTask))
+        # print(i)
+    # print(createList)
+    parm={"params": createList}
+    return JsonResponse(parm)
 def addTask(request):
     if request.method=="POST":
         title = request.POST.get("title")
@@ -83,4 +100,14 @@ def update(request):
         return redirect("/")
     else:
         print(request.method)
+        return HttpResponse(405)
+def delete(request):
+    if request.method=="POST":
+        task_gid = request.POST.get("taskGid")
+        accessToken = "1/1201800762568260:f3d635fcfe882948cefcce5585990a6c"
+        client = asana.Client.access_token(accessToken)
+        me = client.users.me()
+        result = client.tasks.delete_task(task_gid, opt_pretty=True)
+        return redirect("/")
+    else:
         return HttpResponse(405)
